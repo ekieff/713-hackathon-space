@@ -1,9 +1,15 @@
-import React from "react"
+import React, { useEffect } from "react"
 
-function Question() {
-  const answerClick = () => {
-    console.log('clicked')
-  }
+function Question(props) {
+
+  useEffect(() =>{
+    words=defaultWords;
+    synonyms=defaultSynonyms;
+    wordsValues();
+    console.log(words)
+    console.log(synonyms)
+    console.log(buttonOne)
+  } )
 
 let buttonOne = document.getElementById('btnone');
 let buttonTwo = document.getElementById('btntwo');
@@ -53,38 +59,26 @@ let gameWords = [];
           checkIfEndGame();
       }
       wordsValues();
-      displayPlayerOneScore.textContent = ("Player One: " + playerOneScore)
+      displayPlayerOneScore = ("Player One: " + playerOneScore)
   }
 
   //add a function on click
-  btns.forEach(btn => { //on click run game play.
-  
-     btn.addEventListener('click', event =>{
-      gamePlay(event.target);
-      })
-  });
+  const answerClick = (event) => {
+    console.log('clicked')
+    console.log(event.target)
+    gamePlay(event.target)
+  };
   
   //
   function checkIfEndGame (){ //if the score of a player is 10, reset score values for next play. for each, close gameplay and open the winner div.
       if (playerOneScore >= 5){
           playerOneScore = 0;
-          document.getElementById("mainboard").style.display="none";
-          document.getElementById("winner").style.display="block";
-          document.getElementById("winnerTitle").textContent=("Player One Wins!")
+          //document.getElementById("mainboard").style.display="none";
+          //document.getElementById("winner").style.display="block";
+          //document.getElementById("winnerTitle").textContent=("Player One Wins!")
       }
   }
-  
-  //do on component mount
-  startButton.addEventListener('click', function(){   //start button from the main screen uses default array to load word values, opens game page
-      startDiv.style.display="none";
-      document.getElementById("mainboard").style.display="block";
-      words=defaultWords;
-      synonyms=defaultSynonyms;
-      wordsValues();
-  })
-  
-  
-  
+ 
   function wordsValues(){ //creates array with words, for each round logs 4 random words into the array, using the index value of the word, matches the synonym, returns word, value and synonym into game words.
       gameWords = [];     //also finds a random synonym to create the synonym clue. logs values into buttons.
       for (let i = 0; i < 4; i ++){
@@ -97,26 +91,27 @@ let gameWords = [];
       //synonym.textContent = (winningValue[2])
       
   //buttons
-      buttonOne.textContent = (gameWords[0][0]);
-      buttonTwo.textContent = (gameWords[1][0]);
-      buttonThree.textContent = (gameWords[2][0]);
-      buttonFour.textContent = (gameWords[3][0]);
+      buttonOne = (gameWords[0][0]);
+      buttonTwo = (gameWords[1][0]);
+      buttonThree = (gameWords[2][0]);
+      buttonFour = (gameWords[3][0]);
   };
-  
+   //do on component mount
+
   return (
     <div>
       <p>question: what is our planet?</p>
       <div className='answer-one' onClick={answerClick}><p>
-        mars
+        {buttonOne}
       </p></div>
       <div className='answer-two' onClick={answerClick}><p>
-        earth
+        {buttonTwo}
       </p></div>
       <div className='answer-three' onClick={answerClick}><p>
-        pluto
+        {buttonThree}
       </p></div>
       <div className='answer-four' onClick={answerClick}><p>
-        brushing his teeth
+        {buttonFour}
       </p></div>
     </div>
   )
