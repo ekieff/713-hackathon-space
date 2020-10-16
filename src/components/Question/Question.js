@@ -1,6 +1,7 @@
 import React, { useEffect, useState, setState } from "react"
 import RightAnswer from './RightAnswer';
 import WrongAnswer from './WrongAnswer'
+import {Redirect} from 'react-router-dom'
 
 function Question(props) {
 
@@ -57,10 +58,10 @@ let gameWords = [];
   function gamePlay(target){  //if button choice is the right value, increase score, always change user, always change words and relog scores, and prompt next user.
       if (target.textContent===winningValue[0]){
           setCorrect('true')
-          checkIfEndGame();   //for correct choices check if the scores prompt a win.
-      } else if(target.textContent!==winningValue[0]){
-          checkIfEndGame();
+          props.history.push('/question/correct')
+        } else if(target.textContent!==winningValue[0]){
           setIncorrect('true')
+          props.history.push('/question/incorrect')
       }
   }
 
@@ -73,14 +74,7 @@ let gameWords = [];
   };
   
   //
-  function checkIfEndGame (){ //if the score of a player is 10, reset score values for next play. for each, close gameplay and open the winner div.
-      if (playerOneScore >= 5){
-          playerOneScore = 0;
-          //document.getElementById("mainboard").style.display="none";
-          //document.getElementById("winner").style.display="block";
-          //document.getElementById("winnerTitle").textContent=("Player One Wins!")
-      }
-  }
+
  
   function wordsValues(){ //creates array with words, for each round logs 4 random words into the array, using the index value of the word, matches the synonym, returns word, value and synonym into game words.
       gameWords = [];     //also finds a random synonym to create the synonym clue. logs values into buttons.
