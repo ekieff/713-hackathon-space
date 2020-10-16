@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, setState } from "react"
+import RightAnswer from './RightAnswer';
+import WrongAnswer from './WrongAnswer'
 
 function Question(props) {
 
@@ -10,15 +12,18 @@ function Question(props) {
     console.log(synonyms)
     console.log(buttonOne)
   }, [] )
+ 
 const [buttonOne, setButtonOne] = useState()
 const [buttonTwo, setButtonTwo] = useState()
 const [buttonThree, setButtonThree] = useState()
 const [buttonFour, setButtonFour] = useState()
+const [winningValue, setWinningValue] = useState([])
+const [correct, setCorrect] = useState()
+const [incorrect, setIncorrect] = useState()
 
 let gameSynonym = document.getElementById("synonym");
 let playerOneScore = 0; 
 let displayPlayerOneScore = document.getElementById("playerOneScore");
-let winningValue;
 let startButton = document.getElementById("start");
 let startDiv = document.getElementById("opening");
 let gameWords = [];
@@ -51,17 +56,17 @@ let gameWords = [];
   //is being called in button function
   function gamePlay(target){  //if button choice is the right value, increase score, always change user, always change words and relog scores, and prompt next user.
       if (target.textContent===winningValue[0]){
-          playerOneScore ++;
+          setCorrect('true')
           checkIfEndGame();   //for correct choices check if the scores prompt a win.
       } else if(target.textContent!==winningValue[0]){
           checkIfEndGame();
+          setIncorrect('true')
       }
-      wordsValues();
-      displayPlayerOneScore = ("Player One: " + playerOneScore)
   }
 
   //add a function on click
   const answerClick = (event) => {
+    event.preventDefault()
     console.log('clicked')
     console.log(event.target)
     gamePlay(event.target)
@@ -84,8 +89,8 @@ let gameWords = [];
       let index = words.indexOf(word);
       let synonym = synonyms[index];
       gameWords[i]=[word , index , synonym];
+      console.log(gameWords)
       };
-      winningValue = gameWords[Math.floor(Math.random()*gameWords.length)]
       //synonym.textContent = (winningValue[2])
       
   //buttons
@@ -93,12 +98,15 @@ let gameWords = [];
       setButtonTwo(gameWords[1][0]);
       setButtonThree(gameWords[2][0]);
       setButtonFour(gameWords[3][0]);
+      setWinningValue(gameWords[Math.floor(Math.random()*gameWords.length)])
+      
+      
   };
    //do on component mount
 
   return (
     <div>
-      <p>question: what is our planet?</p>
+      <p>{winningValue[2]}</p>
       <div className='answer-one' onClick={answerClick}><p>
         {buttonOne}
       </p></div>
