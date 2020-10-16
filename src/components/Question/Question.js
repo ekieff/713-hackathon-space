@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 
 function Question(props) {
 
@@ -9,13 +9,11 @@ function Question(props) {
     console.log(words)
     console.log(synonyms)
     console.log(buttonOne)
-  } )
-
-let buttonOne = document.getElementById('btnone');
-let buttonTwo = document.getElementById('btntwo');
-let buttonThree = document.getElementById('btnthree');
-let buttonFour = document.getElementById('btnfour');
-const btns = document.querySelectorAll('button[id^=btn]')
+  }, [] )
+const [buttonOne, setButtonOne] = useState()
+const [buttonTwo, setButtonTwo] = useState()
+const [buttonThree, setButtonThree] = useState()
+const [buttonFour, setButtonFour] = useState()
 
 let gameSynonym = document.getElementById("synonym");
 let playerOneScore = 0; 
@@ -91,10 +89,10 @@ let gameWords = [];
       //synonym.textContent = (winningValue[2])
       
   //buttons
-      buttonOne = (gameWords[0][0]);
-      buttonTwo = (gameWords[1][0]);
-      buttonThree = (gameWords[2][0]);
-      buttonFour = (gameWords[3][0]);
+      setButtonOne(gameWords[0][0]);
+      setButtonTwo(gameWords[1][0]);
+      setButtonThree(gameWords[2][0]);
+      setButtonFour(gameWords[3][0]);
   };
    //do on component mount
 
